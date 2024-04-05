@@ -2,23 +2,27 @@
 # mensagem de conclusão.
 
 import threading
-import random
 import time
+import random
 
-def ThreadTimeRandom (identificador):
+def trabalho(identificador):
     duracao = random.randint(1, 5)
-    print (f'Thread {identificador} iniciada. Tempo de espera: {duracao} segundos.')
+    print(f"Thread {identificador} iniciada. Tempo de espera: {duracao} segundos.")
     time.sleep(duracao)
-    print(f'Thread {identificador} finalizada!')
+    print(f"Thread {identificador} terminada.")
 
 threads = []
 
-for i in range (5):
-    thread = threading.Thread(target=ThreadTimeRandom, args=(i+1,))
+for i in range(5):
+    thread = threading.Thread(target=trabalho, args=(i+1,))
+
+    # Uma lista criada para armazenar as threads
     threads.append(thread)
     thread.start()
 
+
+# Esse for garante que todas as threads da lista terminem antes de imprimir a mensagem de conclusão
 for thread in threads:
     thread.join()
 
-print ('Todas as threads terminaram a sua execução.')
+print("Todas as threads terminaram. Programa finalizado.")
