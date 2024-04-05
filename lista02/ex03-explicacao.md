@@ -1,0 +1,9 @@
+# O queue é basicamente o FIFO (First In First Out) em C. o método put adiciona o item a fila, e o método get remove o item da fila, removendo os itens que entraram primeiro.
+
+# Neste caso específico, o uso de duas threads não acelerará o programa. Na verdade, pode até torná-lo um pouco mais lento devido ao overhead de sincronização das threads.
+
+# A razão para isso é que as duas threads estão efetivamente realizando suas tarefas em série, não em paralelo. A thread t1 gera um número, sinaliza para t2 e então espera. A thread t2 espera por t1, imprime o número e sinaliza para t1. Então, t1 gera o próximo número, e o ciclo se repete. Em outras palavras, t1 e t2 nunca estão realmente executando ao mesmo tempo.
+
+# O uso de threads pode acelerar um programa quando você tem tarefas que podem ser executadas em paralelo. Por exemplo, se você tivesse duas tarefas independentes que demorassem muito tempo para serem executadas, você poderia acelerar seu programa executando essas tarefas em duas threads separadas. No entanto, neste caso, as tarefas de t1 e t2 não são independentes: t2 não pode imprimir um número até que t1 o tenha gerado.
+
+#  Semáforos são uma ferramenta útil quando você tem várias threads que podem trabalhar paralelamente, mas devido a algumas limitações (como limitações de recursos), apenas um número limitado de threads pode trabalhar ao mesmo tempo. Por exemplo, você pode ter um semáforo que permita que até 5 threads acessem um recurso compartilhado ao mesmo tempo. Se uma sexta thread tentar acessar o recurso, ela terá que esperar até que uma das outras cinco threads termine.
