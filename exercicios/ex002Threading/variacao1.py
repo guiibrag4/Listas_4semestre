@@ -4,7 +4,7 @@ from datetime import datetime
 
 numero_sorteado = 0
 numero_encontrado = False
-numero_maximo = 10000
+numero_maximo = 1000000
 
 def gerarNumeroAleatorio():
     global numero_sorteado
@@ -46,5 +46,4 @@ inicio = datetime.now()
 if __name__ == '__main__':
     main()
     print(f'Tempo de execução: {datetime.now() - inicio}')
-
             
