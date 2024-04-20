@@ -2,6 +2,7 @@
 #####
 # O programa pode ser executado com o comando: python3 ex03.py
 import threading
+import multiprocessing
 import queue
 import random
 
