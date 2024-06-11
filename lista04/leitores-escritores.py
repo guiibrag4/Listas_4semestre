@@ -8,6 +8,7 @@ escritores.
 '''
 
 import threading
+import time
 
 novaYork_news = 0
 
@@ -15,30 +16,36 @@ novaYork_news = 0
 sem = threading.Semaphore(5) # 5 leitores podem ler ao mesmo tempo
 mutex = threading.Lock() #Semáforo binário, com "down" e "up" (Ações atômicas, que garantem que quando uma operação está sendo executada no semáforo, nenhum processo pode acessar o semáforo)
 
-def leitor(nome):
-    global novaYork_news
-    sem.acquire()
-    print(f'Leitor {nome} está lendo a notícia: {novaYork_news}')
-    sem.release()
-
 def escritor (nome):
-    global novaYork_news
-    mutex.acquire()
-    novaYork_news += 1
-    print (f'Escritor {nome} está escrevendo a notícia: {novaYork_news}')
-    mutex.release()
-    print ()
-    
+    for i in range(5):
+        global novaYork_news
+        mutex.acquire()
+        novaYork_news += 1
+        print (f'Escritor {nome} está escrevendo a notícia: {novaYork_news}')
+        
+        time.sleep(2.5)
+        mutex.release()
+        print ()
+
+def leitor(nome):
+    # for i in range(5):
+        global novaYork_news
+        sem.acquire()
+        print(f'Leitor {nome} está lendo a notícia: {novaYork_news}')
+        time.sleep(1)
+        sem.release()
+        
 threads = []
 for i in range(5):
-    t = threading.Thread(target=leitor, args=(f'{i+1}',))
-    threads.append(t)
-    t.start()
-    
+
     t = threading.Thread(target=escritor, args=(f'{i+1}',))
     threads.append(t)
     t.start()
 
+    t = threading.Thread(target=leitor, args=(f'{i+1}',))
+    threads.append(t)
+    t.start()
+    
 for t in threads:
     t.join()
 
